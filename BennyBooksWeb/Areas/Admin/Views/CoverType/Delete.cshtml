@@ -1,0 +1,36 @@
+﻿@model CoverType // Since we are not returning a type we can instead use the controller
+
+<form method="post" asp-action="DeletePOST">
+    @*Since the input fields are disabled we still need the Id to be passed so it can be deleted*@
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete Cover Page</h2>
+            <hr/>
+        </div>
+        @*<div asp-validation-summary="All"></div>*@
+        <div class="mb-3">
+            <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
+            <label asp-for="Name"></label>
+            <input asp-for="Name" disabled class="form-control" />
+        </div>
+        @*
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" disabled class="form-control" />
+        </div>*@
+        <button type="submit" class="btn btn-danger" style="width:10rem">Delete</button>
+
+        <!--Directs user to the home page-->
+        <a asp-controller="CoverType" asp-action="Index" class="btn btn-secondary" style="width: 10rem">
+            Back to List
+        </a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        // Uses partial view, use _ to indicated a partialview. Makes it so validation happens on Client side not server side(Controller)
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
