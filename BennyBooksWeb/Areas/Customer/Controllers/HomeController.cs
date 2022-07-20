@@ -32,4 +32,15 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    public IActionResult Details(Guid id)
+    {
+        ShoppingCart cartObj = new()
+        {
+            Count = 1,
+            Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id, includeProperties: "Category,CoverType")
+        };
+
+        return View(cartObj); // still need to create a view model since product is not enough
+    }
 }
