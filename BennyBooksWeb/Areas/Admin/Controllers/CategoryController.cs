@@ -124,7 +124,7 @@ public class CategoryController : Controller
         _unityOfWork.Category.Remove(categoryFromDb); // Update the database
 
         _unityOfWork.SaveAsync();
-        TempData["success"] = "Category created successfully";
+        TempData["success"] = "Category deleted successfully";
 
         return RedirectToAction(nameof(Index));
     }

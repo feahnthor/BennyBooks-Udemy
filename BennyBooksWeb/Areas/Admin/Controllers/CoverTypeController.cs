@@ -124,7 +124,7 @@ public class CoverTypeController : Controller
         _unityOfWork.CoverType.Remove(categoryFromDb); // Update the database
 
         _unityOfWork.SaveAsync();
-        TempData["success"] = "obj created successfully";
+        TempData["success"] = "CoverType deleted successfully";
 
         return RedirectToAction(nameof(Index));
     }
