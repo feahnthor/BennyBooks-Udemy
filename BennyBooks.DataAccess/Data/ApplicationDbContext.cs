@@ -1,10 +1,15 @@
 ﻿using BennyBooks.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BennyBooksWeb.DataAccess
 {
-    public class ApplicationDbContext : DbContext // Uses EntityFrameWorkCore to try associating our Db
+    public class ApplicationDbContext : IdentityDbContext // Uses EntityFrameWorkCore to try associating our Db
     {
+        // Use IdentityDbContext to add new scafolding to our Web project Identity.EntityFrameworkCore
+        // Clear nuget packages with errors Scaffolding for Identity
+        // https://social.msdn.microsoft.com/Forums/en-US/07c93e8b-5092-4211-80e6-3932d87664c3/always-got-this-error-when-scaffolding-suddenly-8220there-was-an-error-running-the-selected-code?forum=aspdotnetcore
+
         /* CREATING A NEW DATABASE THROUGH MIGRATION
          * 1. Delete the Migrations folder and the database from SQL
          * 2. in Package Manger Console run 
