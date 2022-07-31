@@ -1,9 +1,10 @@
 ﻿using BennyBooks.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore; // Makes it so our DbContext is available when adding Identity Scaffolding
 using Microsoft.EntityFrameworkCore;
 
 namespace BennyBooksWeb.DataAccess
 {
-    public class ApplicationDbContext : DbContext // Uses EntityFrameWorkCore to try associating our Db
+    public class ApplicationDbContext : IdentityDbContext // Uses EntityFrameWorkCore to try associating our Db
     {
         /* CREATING A NEW DATABASE THROUGH MIGRATION
          * 1. Delete the Migrations folder and the database from SQL
