@@ -38,6 +38,7 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
+app.MapRazorPages(); // Makes it so program can find pages properly for the asp-page calls
 
 app.MapControllerRoute(
     name: "default",
