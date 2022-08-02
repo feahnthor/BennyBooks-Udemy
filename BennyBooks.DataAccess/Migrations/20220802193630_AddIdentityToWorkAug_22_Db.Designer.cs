@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BennyBooks.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220731080951_AddIdentityToDb")]
-    partial class AddIdentityToDb
+    [Migration("20220802193630_AddIdentityToWorkAug_22_Db")]
+    partial class AddIdentityToWorkAug_22_Db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
