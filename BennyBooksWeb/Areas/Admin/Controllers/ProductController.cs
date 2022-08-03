@@ -12,7 +12,7 @@ namespace BennyBooksWeb.Areas.Admin.Controllers;
 public class ProductController : Controller
 {
     private readonly IUnitOfWork _unityOfWork; // ApplicationDbContext is now hosted in Irepository and reference in Program.cs
-    private readonly IWebHostEnvironment _hostEnvironment;
+    private readonly IWebHostEnvironment _hostEnvironment; // use for files
 
     public ProductController(IUnitOfWork unityOfWork, IWebHostEnvironment hostEnvironment) // Constructor being passed db from Program.cs
     {
