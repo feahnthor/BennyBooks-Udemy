@@ -1,120 +1,53 @@
-﻿@model BennyBooks.Models.ViewModels.ProductVM
+﻿@model BennyBooks.Models.Company
 
 <form method="post" asp-action="Upsert" enctype="multipart/form-data"> @*entype is what allows for image uploads*@
-    <input asp-for="Product.Id" hidden/>
-    <input asp-for="Product.ImageUrl" hidden/> @*allows us access to the ImageUrl and Product so there are no duplicates created*@
-
+    <input asp-for="Id" hidden/>
+    
     <div class="row">
         <div class="col-10">
             <div class="border p-3 mt-4 row">
                 <div class="col-12 pb-2">
-                    <h2 class="text-primary">@(Model.Product.Id != Guid.Empty? "Update" : "Create") Product</h2>
+                    <h2 class="text-primary">@(Model.Id != Guid.Empty? "Update" : "Create") Company</h2>
                     <hr/>
                 </div>
                 <div class="mb-3">
                     <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.Title"></label>
-                    <input asp-for="Product.Title" class="form-control" />
-                    <span asp-validation-for="Product.Title" class="text-danger"></span>
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.Author"></label>
-                    <input asp-for="Product.Author" class="form-control" />
-                    <span asp-validation-for="Product.Author" class="text-danger"></span>
+                    <label asp-for="StreetAddress"></label>
+                    <input asp-for="StreetAddress" class="form-control" />
+                    <span asp-validation-for="StreetAddress" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.PageCount"></label>
-                    <input asp-for="Product.PageCount" class="form-control" />
-                    <span asp-validation-for="Product.PageCount" class="text-danger"></span>
+                    <label asp-for="City"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
                 </div>
                 <div class="mb-3 col-12">
                     <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.Description"></label>
-                    <textarea asp-for="Product.Description" rows="3" class="form-control" ></textarea>
-                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                    <label asp-for="State"></label>
+                    <textarea asp-for="State" class="form-control" ></textarea>
+                    <span asp-validation-for="State" class="text-danger"></span>
                 </div>
                 <div class="mb-3 col-6">
                     <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.ISBN"></label>
-                    <input asp-for="Product.ISBN" class="form-control" />
-                    <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+                    <label asp-for="PostalCode"></label>
+                    <input asp-for="PostalCode" class="form-control" />
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
                 </div>
                 <div class="mb-3 col-6">
                     <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.Price"></label>
-                    <input asp-for="Product.Price" class="form-control" />
-                    <span asp-validation-for="Product.Price" class="text-danger"></span>
-                </div>
-                <div class="mb-3 col-6">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.Price50"></label>
-                    <input asp-for="Product.Price50" class="form-control" />
-                    <span asp-validation-for="Product.Price50" class="text-danger"></span>
-                </div>
-                <div class="mb-3 col-6">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.Price100"></label>
-                    <input asp-for="Product.Price100" class="form-control" />
-                    <span asp-validation-for="Product.Price100" class="text-danger"></span>
-                </div>
-                @*
-                <div class="mb-3">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.InStock"></label>
-                    <input asp-for="Product.InStock" type="checkbox" class="form-control" />
-                    <span asp-validation-for="Product.InStock" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.IsDisabled"></label>
-                    <input asp-for="Product.IsDisabled" type="checkbox" class="form-control" />
-                    <span asp-validation-for="Product.IsDisabled" class="text-danger"></span>
-                </div>*@
-
-                @* VIEWBAG WAY OFF ASSOCIATING DATA FROM 
-                <div class="mb-3">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.CategoryId"></label>
-            
-                    <select asp-for="Product.CategoryId" asp-items="ViewBag.CategoryList" class="form-select" >
-                        <option disabled selected>--Select Category</option>
-                    </select>
-                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-                </div> *@
-                @* VIEWDATA WAY OFF ASSOCIATING DATA FROM 
-                <div class="mb-3">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.CoverTypeId"></label>
-            
-                    <select asp-for="Product.CoverTypeId" asp-items="@(ViewData["CoverTypeList"] as IEnumerable<SelectListItem>)" class="form-select" >
-                        <option disabled selected>--Select Category--</option>
-                    </select>
-                    <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
-                </div> *@
-                <div class="mb-3">
-                    <label asp-for="Product.ImageUrl"></label>
-                    <input type="file" id="uploadImageBox" name="file" class="form-control" />
-                </div>
-                <div class="mb-3 col-6">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.CategoryId"></label>
-                    <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select" >
-                        <option disabled selected>--Select Category--</option>
-                    </select>
-                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-                </div>
-                <div class="mb-3 col-6">
-                    <!--Class is already available which allows us to use all properties from our model using the "asp-for"-->
-                    <label asp-for="Product.CoverTypeId"></label>
-                    <select asp-for="Product.CoverTypeId" asp-items="@Model.CoverTypeList" class="form-select" >
-                        <option disabled selected>--Select CoverType--</option>
-                    </select>
-                    <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="col-12">
-                    @if (Model.Product.Id != Guid.Empty)
+                    @if (Model.Id != Guid.Empty)
                     {
                         <button type="submit" class="btn btn-primary" style="width:10rem">Update</button>
                     }
@@ -124,18 +57,12 @@
                     }
             
                     <!--Directs user to the home page-->
-                    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width: 10rem">
+                    <a asp-controller="Company" asp-action="Index" class="btn btn-secondary" style="width: 10rem">
                         Back to List
                     </a>
                 </div>  
         </div>
     </div>
-        <div class="col-2 pt-4">
-            <img 
-            src="@Model.Product.ImageUrl"
-            width="100%" 
-            style="border-radius:5px; border:1px solid #bbb9b9" />
-        </div>
     </div>
 
 </form>
@@ -145,27 +72,4 @@
         // Uses partial view, use _ to indicated a partialview. Makes it so validation happens on Client side not server side(Controller)
     <partial name="_ValidationScriptsPartial" />
     }
-    <script>
-        tinymce.init({
-          selector: 'textarea',
-          plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
-          toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter image editimage pageembed permanentpen table tableofcontents',
-          toolbar_mode: 'floating',
-          tinycomments_mode: 'embedded',
-          tinycomments_author: 'Author name',
-        });
-
-        function ValidateInput() {
-            if (document.getElementById("uploadImageBox").value == "") 
-            {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please upload an Image!',
-                });
-                return false;
-            }
-            return true;
-        }
-    </script>
 }
