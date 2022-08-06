@@ -37,7 +37,7 @@ public class CompanyController : Controller
         }
         else
         {
-            // Will display edit page with all the data for a product
+            // Will display edit page with all the data for a company
             company = _unityOfWork.Company.GetFirstOrDefault(u => u.Id == id); // Grab item and data
             return View(company);
         }
@@ -49,21 +49,21 @@ public class CompanyController : Controller
     // POST
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Upsert(ProductVM obj)
+    public async Task<IActionResult> Upsert(Company obj)
     {
         // Checks to make sure the model is valid
         if (ModelState.IsValid )//&& !string.IsNullOrWhiteSpace(obj.Title
         {
             try
             {
-                if (obj.Product.Id == Guid.Empty) // we are creating as there is no previous product
+                if (obj.Id == Guid.Empty) // we are creating as there is no previous company
                 {
-                    _unityOfWork.Product.Add(obj.Product); // Id is taken from the Upsert.cshtml
+                    _unityOfWork.Company.Add(obj); // Id is taken from the Upsert.cshtml
                     TempData["success"] = "Company created successfully";
                 }
                 else
                 {
-                    _unityOfWork.Product.Update(obj.Product);
+                    _unityOfWork.Company.Update(obj);
                     TempData["success"] = "Company updated successfully";
                 }
                 await _unityOfWork.SaveAsync();

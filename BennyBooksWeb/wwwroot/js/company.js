@@ -11,12 +11,12 @@ function loadDataTable() {
         },
         // Column number needs to match what is in the index.cshtml. Data for our table
         "columns": [ // Case sensitive, so check the API output .../admin/company/getall
-            { "data": "Name", "width": "13%" },
-            { "data": "streetaddress", "width": "13%" },
+            { "data": "name", "width": "13%" },
+            { "data": "streetAddress", "width": "13%" },
             { "data": "city", "width": "13%" },
             { "data": "state", "width": "13%" },
-            { "data": "postalcode", "width": "13%" },
-            { "data": "phonenumber", "width": "13%" },
+            { "data": "postalCode", "width": "13%" },
+            { "data": "phoneNumber", "width": "13%" },
             {
                 "data": "id",
                 "render": function (data) {// Buttons using id

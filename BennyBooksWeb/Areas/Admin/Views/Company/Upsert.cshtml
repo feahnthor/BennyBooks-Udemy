@@ -1,7 +1,7 @@
-﻿@model BennyBooks.Models
+﻿@model BennyBooks.Models.Company
 
 <form method="post" asp-action="Upsert" enctype="multipart/form-data"> @*entype is what allows for image uploads*@
-    <input asp-for="Company.Id" hidden/>
+    <input asp-for="Id" hidden/>
     
     <div class="row">
         <div class="col-10">
