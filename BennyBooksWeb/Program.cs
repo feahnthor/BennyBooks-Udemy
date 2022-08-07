@@ -3,6 +3,8 @@ using BennyBooks.DataAccess.Repository.IRepository;
 using BennyBooksWeb.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using BennyBooks.Utility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProvid
 // To apply update, including creating a table if it doesn't exist use -- update-database
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // Dependancies can now be made in UnityOfWork
+builder.Services.AddSingleton<IEmailSender, EmailSender>(); // Resolves issue mentioned in the EmailSender method
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation(); // makes it so changes made by razor (add navbar) can be updated during runtime
 
 var app = builder.Build();

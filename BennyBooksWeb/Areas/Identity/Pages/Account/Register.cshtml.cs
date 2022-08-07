@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BennyBooks.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -29,14 +30,17 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
+            _roleManager = roleManager;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -102,6 +106,17 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            //use await instead of GetAwaiter().GetResult()  https://stackoverflow.com/questions/34549641/async-await-vs-getawaiter-getresult-and-
+            bool adminRoleExistInDb = await _roleManager.RoleExistsAsync(SD.Role_Admin);
+            if (!adminRoleExistInDb) // If the role does not exists, add it to the database
+            {
+                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Super_Admin));
+                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
+                await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Company));
+                await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Individual));
+                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee));
+            }
+            
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
