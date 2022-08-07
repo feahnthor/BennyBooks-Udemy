@@ -12,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("DefaultConnection") // Gets connection string from appsettings.json, DefualtCon... is can be named anything based on json
     ));
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 // To update the database run Nuget Pakckage Manger in Console mode then use -- add-migration {Class name you want}
 // Make sure default project drop down in the bottom is set to DataAccess and used remove-migraton to get rid of old one after deleting it
