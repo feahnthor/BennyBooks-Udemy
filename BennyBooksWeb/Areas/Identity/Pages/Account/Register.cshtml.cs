@@ -17,7 +17,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -42,7 +44,7 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
-            _userManager = userManager;
+            _userManager = userManager; // Helper method
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
@@ -103,7 +105,7 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
+            [Required] // anything added here should be loaded in the get method below
             public string? Name { get; set; }
             [Display(Name = "Street Address")]
             public string? StreetAddress { get; set; }
@@ -113,7 +115,11 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             public string? PostalCode { get; set; }
             [Display(Name = "Phone Number")]
             public string? PhoneNumber { get; set; }
-            public DateTime CreateDate { get; set; }
+            public DateTime CreateDate { get; set; } =  DateTime.Now;
+            public string? Role { get; set; } // Added to give access specifically for the Register.cshtml
+
+            [ValidateNever]
+            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 
@@ -121,7 +127,7 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
         {
             //use await instead of GetAwaiter().GetResult()  https://stackoverflow.com/questions/34549641/async-await-vs-getawaiter-getresult-and-
             bool adminRoleExistInDb = await _roleManager.RoleExistsAsync(SD.Role_Admin);
-            if (!adminRoleExistInDb) // If the role does not exists, add it to the database
+            if (!adminRoleExistInDb) // If the role does not exists, add it to the database default values from SD.cs
             {
                 await _roleManager.CreateAsync(new IdentityRole(SD.Role_Super_Admin));
                 await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
@@ -132,6 +138,14 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            Input = new InputModel()
+            {
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem // access old instance of the Database to get the values. is an IEnumerable
+                {
+                    Text = i,
+                    Value = i
+                })
+            };
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -156,8 +170,16 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation($"User created a new account with password. Role given: {Input.Role}");
 
+                    if (Input.Role == null) // Set to individual user
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_User_Individual);
+                    }
+                    else // Mapping table that maps Role and Users is the AspNetUserRoles
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user); //Token based off Program.cs AddDefaultTokenProviders
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
