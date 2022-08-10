@@ -10,6 +10,7 @@
     <div class="col-md-7">
         <form id="registerForm" class= "row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <input asp-for="Input.CreateDate" hidden /> @*hides the creation date*@
+            <input asp-for="Input.LastLoginDate" hidden />
             <h2>Create a new account.</h2>
             <hr />
             <div class="form-floating py-2 col-12">

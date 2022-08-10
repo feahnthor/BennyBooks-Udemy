@@ -115,6 +115,7 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             public string? PostalCode { get; set; }
             [Display(Name = "Phone Number")]
             public string? PhoneNumber { get; set; }
+            public DateTime LastLoginDate { get; set; } = DateTime.Now;
             public DateTime CreateDate { get; set; } =  DateTime.Now;
             public string? Role { get; set; } // Added to give access specifically for the Register.cshtml
 
@@ -165,6 +166,7 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
                 user.Name = Input.Name;
                 user.PhoneNumber = Input.PhoneNumber;
                 user.CreateDate = Input.CreateDate;
+                user.LastLoginDate = Input.LastLoginDate;
 
                 var result = await _userManager.CreateAsync(user, Input.Password); // Creates user
 
