@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BennyBooks.DataAccess.Repository.IRepository;
 using BennyBooks.Models;
 using BennyBooks.Utility;
 using Microsoft.AspNetCore.Authentication;
@@ -34,6 +35,7 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,8 +43,10 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
             _roleManager = roleManager;
             _userManager = userManager; // Helper method
             _userStore = userStore;
@@ -118,9 +122,13 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             public DateTime LastLoginDate { get; set; } = DateTime.Now;
             public DateTime CreateDate { get; set; } =  DateTime.Now;
             public string? Role { get; set; } // Added to give access specifically for the Register.cshtml
+            public Guid? CompanyId { get; set; }
 
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+            [ValidateNever]
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
+
         }
 
 
@@ -145,7 +153,12 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
                 {
                     Text = i,
                     Value = i
-                })
+                }),
+                CompanyList = _unitOfWork.Company.GetAll().Select(i => new SelectListItem // gets all companies
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
             };
         }
 
@@ -155,18 +168,10 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = CreateUser(); // Creates application user which gets it fields filled
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                user.City = Input.City; // take values from the Register.cshtml
-                user.StreetAddress = Input.StreetAddress;
-                user.State = Input.State;
-                user.PostalCode = Input.PostalCode;
-                user.Name = Input.Name;
-                user.PhoneNumber = Input.PhoneNumber;
-                user.CreateDate = Input.CreateDate;
-                user.LastLoginDate = Input.LastLoginDate;
 
                 var result = await _userManager.CreateAsync(user, Input.Password); // Creates user
 
@@ -218,7 +223,21 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<ApplicationUser>(); // Use ApplicatoinUser instead identity user to contain
+                ApplicationUser user = new ApplicationUser();
+                
+                user.City = Input.City; // take values from the Register.cshtml
+                user.StreetAddress = Input.StreetAddress;
+                user.State = Input.State;
+                user.PostalCode = Input.PostalCode;
+                user.Name = Input.Name;
+                user.PhoneNumber = Input.PhoneNumber;
+                user.CreateDate = Input.CreateDate;
+                user.LastLoginDate = Input.LastLoginDate;
+                if (Input.Role == SD.Role_User_Company && Input.CompanyId != null && Input.CompanyId != Guid.Empty) // make sure role is set correctly
+                    user.CompanyId = Input.CompanyId;
+
+                return user;
+                //return Activator.CreateInstance<ApplicationUser>(); // Use ApplicatoinUser instead identity user to contain
             }
             catch
             {
