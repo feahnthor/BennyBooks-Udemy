@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BennyBooks.Models
 {
+    [Serializable]
     public class Company
     {
         [Key]

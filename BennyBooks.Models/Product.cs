@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BennyBooks.Models
 {
+    [Serializable]
     public class Product
     {
         public Guid Id { get; set; }
