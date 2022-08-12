@@ -13,11 +13,13 @@ namespace BennyBooks.Models
     {
         [Key]
         public Guid Id { get; set; }
+
+        public Guid ProductId { get; set; }
         [ForeignKey("ProductId")]
         [ValidateNever]
         public Product Product { get; set; }
 
-        public string ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; } // IdentityUser actually has an string for an Id not Guid
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
