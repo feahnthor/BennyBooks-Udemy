@@ -23,6 +23,12 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProvid
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // Dependancies can now be made in UnityOfWork
 builder.Services.AddSingleton<IEmailSender, EmailSender>(); // Resolves issue mentioned in the EmailSender method
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation(); // makes it so changes made by razor (add navbar) can be updated during runtime
+builder.Services.ConfigureApplicationCookie(options => // Resolves redirection issue when a user tries to load page where they are no longer  logged in that required Authorization
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout"; // default does not contain Identity
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 
 var app = builder.Build();
 
