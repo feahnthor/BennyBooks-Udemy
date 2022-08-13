@@ -52,14 +52,29 @@ public class HomeController : Controller
     [Authorize] // Makes sure only someone who is logged in can access this 
     public IActionResult Details(ShoppingCart shoppingCart)
     {
-        var claimsIdentity = (ClaimsIdentity) User.Identity; // we need the userId of the logged in user. User id is stored with a url as the key
-        var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier); // claim should not be null as we are authorizing above. Should get userId
-        shoppingCart.ApplicationUserId = claim.Value;
+        if (User.Identity is ClaimsIdentity claimsIdentity) // casting using pattern matching https://docs.microsoft.com/en-Us/dotnet/csharp/fundamentals/tutorials/safely-cast-using-pattern-matching-is-and-as-operators
+        {
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier); // claim should not be null as we are authorizing above. Should get userId
+            shoppingCart.ApplicationUserId = claim.Value;
 
-        _unitOfWork.ShoppingCart.Add(shoppingCart);
-        _unitOfWork.SaveAsync();
+            ShoppingCart shoppingCartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+                c => c.ProductId == shoppingCart.ProductId && c.ApplicationUserId == shoppingCart.ApplicationUserId); // find where ProductId and User are the same
 
-        return RedirectToAction(nameof(Index)); // Redirects the page to our index action above, nameof() makes it so we don't use strings.
-                                          // If it was in another Controller use an overload method RedirectToAction("Index", "ControllerName")
+            if (shoppingCartFromDb == null) // product and user combination not in database yet, add a new one
+            {
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.IncrementCount(shoppingCartFromDb, shoppingCart.Count);
+            }
+
+            _unitOfWork.SaveAsync();
+
+            return RedirectToAction(nameof(Index)); // Redirects the page to our index action above, nameof() makes it so we don't use strings.
+                                                    // If it was in another Controller use an overload method RedirectToAction("Index", "ControllerName")
+        }
+
+        return View(shoppingCart);
     }
 }
