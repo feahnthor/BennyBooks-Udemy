@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace BennyBooks.Models.ViewModels
 {
     public class ProductVM
-    {
+    {//ViewModel is used to encapsulate the multiple entities into single entity. It is basically a combination
+     //of data models into single object and rendering by the view
         public Product Product { get; set; }
         [ValidateNever]
         public IEnumerable<SelectListItem> CategoryList { get; set; } // Selects returns all items (a projection),
