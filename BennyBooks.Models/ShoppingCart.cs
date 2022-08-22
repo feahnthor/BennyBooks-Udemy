@@ -26,5 +26,7 @@ namespace BennyBooks.Models
 
         [Range(1, 100000, ErrorMessage = "Please enter a value between 1 and 100000")]
         public int Count { get; set; }
+        [NotMapped] // Should not be added to our database
+        public double Price { get; set; }
     }
 }

@@ -29,9 +29,14 @@ namespace BennyBooks.DataAccess.Repository
         }
 
         // includeProp - "Category,CoverType"   -- case sensitive
-        public IEnumerable<GenericDbObject> GetAll(string? includeProperties = null)
+        public IEnumerable<GenericDbObject> GetAll(Expression<Func<GenericDbObject, bool>>? filter = null, string? includeProperties = null) // makes filter nullable
         {
             IQueryable<GenericDbObject> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            
             if (includeProperties != null)
             {
                 // Will not brak is there are commas seperating properties, including ,,,

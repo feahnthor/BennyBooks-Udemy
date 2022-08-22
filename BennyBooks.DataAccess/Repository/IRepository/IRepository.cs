@@ -13,7 +13,7 @@ namespace BennyBooks.DataAccess.Repository.IRepository
         // T - Category, not just limited to that, any Controller should be able to call this to get a table
         GenericDbObject GetFirstOrDefault(Expression<Func<GenericDbObject, bool>> filter, string? includeProperties = null); // Similar to FirstOrDefaultAsync(c => c.Id == id); //
         //Look at 114 of Udemy video  https://www.udemy.com/course/complete-aspnet-core-21-course/learn/lecture/29333122#overview
-        IEnumerable<GenericDbObject> GetAll(string? includeProperties = null); // Just like CategoryController.Index(), grab all types from the database, can be null
+        IEnumerable<GenericDbObject> GetAll(Expression<Func<GenericDbObject, bool>>? filter = null, string? includeProperties = null); // Just like CategoryController.Index(), grab all types from the database, can be null
         void Add(GenericDbObject entity); // Add to the databse, takes in a object
         void Remove(GenericDbObject entity);
         void RemoveRange(IEnumerable<GenericDbObject> entity); // Remove multiple things
