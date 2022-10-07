@@ -46,16 +46,20 @@ namespace BennyBooksWeb.Areas.Customer.Controllers
             return View(ShoppingCartVM);
         }
 
-        
-        public IActionResult Increase(Guid cartId)
+        public IActionResult Summary()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Increase(Guid cartId)
         {
             ShoppingCart cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(x => x.Id == cartId);
             _unitOfWork.ShoppingCart.IncrementCount(cart, 1);
-            _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Decrease(Guid cartId)
+        public async Task<IActionResult> Decrease(Guid cartId)
         {
             ShoppingCart cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(x => x.Id == cartId);
 
@@ -63,14 +67,14 @@ namespace BennyBooksWeb.Areas.Customer.Controllers
                 _unitOfWork.ShoppingCart.Remove(cart);
             else
                 _unitOfWork.ShoppingCart.DecrementCount(cart, 1);
-            _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index)); // After editing the database, take us back to our main cart page
         }
-        public IActionResult Remove(Guid cartId) // remove specific item
+        public async Task<IActionResult> Remove(Guid cartId) // remove specific item
         {
             ShoppingCart cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(x => x.Id == cartId);
             _unitOfWork.ShoppingCart.Remove(cart);
-            _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
