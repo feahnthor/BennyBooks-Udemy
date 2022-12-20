@@ -1,0 +1,26 @@
+﻿@model IEnumerable<BennyBooks.Models.Portfolio>
+
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var portfolio in Model)
+        {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@portfolio.ImageUrl" class="card-img-top mx-auto" style="width: 30%" alt="@portfolio.Title">
+                        <div class="card-body d-flex flex-column mt-auto">
+                            <h5 class="card-title">@portfolio.Title</h5>
+                            <p class="card-text">@portfolio.Description</p>
+                            <p class="card-text"><strong>Technologies used:</strong> @portfolio.TechnologiesUsed</p>
+                            <a href="@portfolio.ProjectUrl" class="btn btn-success btn-block mt-2 mx-auto">View project</a>
+                        </div>
+                    </div>
+                </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+

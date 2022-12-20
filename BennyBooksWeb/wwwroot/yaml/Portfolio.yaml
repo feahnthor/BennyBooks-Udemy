@@ -1,0 +1,35 @@
+- Id: 1
+  Title: BennyBooks
+  ImageUrl: \Images\Portfolio-Logos\githublogo.png
+  Description: The site you are currently on. Created from a Udemy course to increase my understanding of C#. The goal is to completely revamp this once I am done with Benny-Souls
+  TechnologiesUsed: C# .Net 6 MVC, Javascript, Technology 3, Javascript, CSS, HTML
+  ProjectUrl: https://github.com/feahnthor/BennyBooks-Udemy
+
+- Id: 2
+  Title: Benny-Souls
+  ImageUrl: \Images\Portfolio-Logos\githublogo.png
+  Description: First real attempt at creating a game using Unity working with 2 amazing friends
+  TechnologiesUsed: C# .Net 6, Unity Software
+  ProjectUrl: https://github.com/martial-god/Benny-Souls
+
+- Id: 3
+  Title: BackgroundTown
+  ImageUrl: \Images\Portfolio-Logos\backgroundtownlogo.png
+  Description: This is was an ECommerce site I did most of the work for at a previous job.
+  TechnologiesUsed: PHP, Javascript, CSS, HTML
+  ProjectUrl: https://backgroundtown.com/
+
+- Id: 4
+  Title: Imagebuggy
+  ImageUrl: \Images\Portfolio-Logos\imagebuggylogo.png
+  Description: Another ECommerce site, this one created for direct to consumer purchases. One of the pages I am most proud of is https://imagebuggy.com/c/167/template-design-postcards as
+    it was originally generated dynamically due to lack of features provided by Infigo.
+  TechnologiesUsed: Infigo Software for hosting the site and the Product Editor, Javascript, CSS, HTML
+  ProjectUrl: https://imagebuggy.com/
+
+- Id: 5
+  Title: Infigo Automation
+  ImageUrl: \Images\Portfolio-Logos\githublogo.png
+  Description: This project was brought to life due to the lacking abilities of Infigo, (the sites that imagebuggy is hosted on) the goal to add over 10,000 new products to the site that would have had to be done manually.
+  TechnologiesUsed: Python, YAML, JSON
+  ProjectUrl: https://github.com/feahnthor/Infigo-Automation
