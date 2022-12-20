@@ -12,5 +12,9 @@ namespace BennyBooks.DataAccess.Repository.IRepository
     {
         int IncrementCount(ShoppingCart shoppingCart, int count);
         int DecrementCount(ShoppingCart shoppingCart, int count);
+        // Create IncreamentCountAsync() and DecrementCountAsync()
+        Task IncrementCountAsync(ShoppingCart shoppingCart, int count);
+        Task DecrementCountAsync(ShoppingCart shoppingCart, int count);
+
     }
 }

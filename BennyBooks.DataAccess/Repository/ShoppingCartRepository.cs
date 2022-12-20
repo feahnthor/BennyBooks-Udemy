@@ -30,6 +30,19 @@ namespace BennyBooks.DataAccess.Repository
             return shoppingCart.Count;
         }
 
+        // Create IncreamentCountAsync() and DecrementCountAsync()
+        public async Task DecrementCountAsync(ShoppingCart shoppingCart, int count)
+        {
+            shoppingCart.Count -= count;
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task IncrementCountAsync(ShoppingCart shoppingCart, int count)
+        {
+            shoppingCart.Count += count;
+            await _db.SaveChangesAsync();
+        }
+
         public Task<int> SaveAsync()
         {
             return _db.SaveChangesAsync();

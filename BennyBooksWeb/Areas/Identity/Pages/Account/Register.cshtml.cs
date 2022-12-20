@@ -134,17 +134,6 @@ namespace BennyBooksWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            //use await instead of GetAwaiter().GetResult()  https://stackoverflow.com/questions/34549641/async-await-vs-getawaiter-getresult-and-
-            bool adminRoleExistInDb = await _roleManager.RoleExistsAsync(SD.Role_Admin);
-            if (!adminRoleExistInDb) // If the role does not exists, add it to the database default values from SD.cs
-            {
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Super_Admin));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Company));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Individual));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee));
-            }
-            
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             Input = new InputModel()
