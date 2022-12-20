@@ -54,7 +54,7 @@ namespace BennyBooksWeb.Areas.Customer.Controllers
         public async Task<IActionResult> Increase(Guid cartId)
         {
             ShoppingCart cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(x => x.Id == cartId);
-            _unitOfWork.ShoppingCart.IncrementCount(cart, 1);
+            await _unitOfWork.ShoppingCart.IncrementCountAsync(cart, 1);
             await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -66,7 +66,7 @@ namespace BennyBooksWeb.Areas.Customer.Controllers
             if (cart.Count <= 1) // delete product from cart
                 _unitOfWork.ShoppingCart.Remove(cart);
             else
-                _unitOfWork.ShoppingCart.DecrementCount(cart, 1);
+                await _unitOfWork.ShoppingCart.DecrementCountAsync(cart, 1);
             await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index)); // After editing the database, take us back to our main cart page
         }
