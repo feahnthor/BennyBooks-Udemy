@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\fonts\Arial\" />
     <Folder Include="wwwroot\Images\Portfolio-Logos\" />
     <Folder Include="wwwroot\Images\Products\" />
     <Folder Include="wwwroot\yaml\" />
