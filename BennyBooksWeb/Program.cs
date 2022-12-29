@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BennyBooks.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using BennyBooks.DataAccess.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProvid
 // To apply update, including creating a table if it doesn't exist use -- update-database
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // Dependancies can now be made in UnityOfWork
+builder.Services.AddScoped<IDbInitializer, DbInitializer> ();
 builder.Services.AddSingleton<IEmailSender, EmailSender>(); // Resolves issue mentioned in the EmailSender method
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation(); // makes it so changes made by razor (add navbar) can be updated during runtime
 builder.Services.ConfigureApplicationCookie(options => // Resolves redirection issue when a user tries to load page where they are no longer  logged in that required Authorization
@@ -44,6 +46,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+SeedDatabase();
 app.UseAuthentication();;
 
 app.UseAuthorization();
@@ -54,3 +57,17 @@ app.MapControllerRoute(
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+// Makes it so our database is created and seeded with data when ran
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var serviceProvider = scope.ServiceProvider;
+        //var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        //var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        //var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
+        var dbInitializer = serviceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

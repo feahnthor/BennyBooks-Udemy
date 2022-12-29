@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BennyBooks.Models\BennyBooks.Models.csproj" />
+    <ProjectReference Include="..\BennyBooks.Utility\BennyBooks.Utility.csproj" />
   </ItemGroup>
 
 </Project>
