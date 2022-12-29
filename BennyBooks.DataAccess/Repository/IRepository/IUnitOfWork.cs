@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BennyBooks.DataAccess.Repository.IRepository
 {
+    /// <summary>
+    /// Holds all our interfaces and makes it so that we can access our methods from the repository while in our controller
+    /// </summary>
     public interface IUnitOfWork
     {
         ICategoryRepository Category { get; }
