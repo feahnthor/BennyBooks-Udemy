@@ -30,7 +30,7 @@ namespace BennyBooks.DataAccess.DbInitializer
             // apply migrations if they are not applied
             try
             {
-                // if there are no migrations, apply them
+                // if there are migrations, apply them
                 if (_db.Database.GetPendingMigrations().Count() > 0)
                 {
                     _db.Database.Migrate(); // makes it so we no longer have to run the command "update-database" in the package manager console

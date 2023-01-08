@@ -62,7 +62,7 @@ public class HomeController : Controller
 
             if (shoppingCartFromDb == null) // product and user combination not in database yet, add a new one
             {
-                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.ShoppingCart.AddAsync(shoppingCart);
             }
             else
             {

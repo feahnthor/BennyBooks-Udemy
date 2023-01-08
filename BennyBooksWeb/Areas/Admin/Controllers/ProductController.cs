@@ -107,7 +107,7 @@ public class ProductController : Controller
 
                 if (obj.Product.Id == Guid.Empty) // we are creating as there is no previous product
                 {
-                    _unityOfWork.Product.Add(obj.Product); // Id is taken from the Upsert.cshtml
+                    await _unityOfWork.Product.AddAsync(obj.Product); // Id is taken from the Upsert.cshtml
                 }
                 else
                 {

@@ -58,7 +58,7 @@ public class CompanyController : Controller
             {
                 if (obj.Id == Guid.Empty) // we are creating as there is no previous company
                 {
-                    _unityOfWork.Company.Add(obj); // Id is taken from the Upsert.cshtml
+                    await _unityOfWork.Company.AddAsync(obj); // Id is taken from the Upsert.cshtml
                     TempData["success"] = "Company created successfully";
                 }
                 else
