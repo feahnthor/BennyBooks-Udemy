@@ -15,6 +15,7 @@ namespace BennyBooks.Models
         public Guid Id { get; set; }
         [Required]
         public string Title { get; set; }
+        public string FirstName { get; set; }
         public string Description { get; set; }
         [Required]
         public string ISBN { get; set; }
@@ -62,5 +63,6 @@ namespace BennyBooks.Models
         public Guid CoverTypeId { get; set; }
         [ValidateNever]
         public CoverType CoverType { get; set; }
+        
     }
 }

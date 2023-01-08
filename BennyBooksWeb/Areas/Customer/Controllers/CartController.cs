@@ -53,7 +53,7 @@ namespace BennyBooksWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Increase(Guid cartId)
         {
-            ShoppingCart cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(x => x.Id == cartId);
+            ShoppingCart cart = await _unitOfWork.ShoppingCart.GetFirstOrDefaultAsync(x => x.Id == cartId);
             await _unitOfWork.ShoppingCart.IncrementCountAsync(cart, 1);
             await _unitOfWork.SaveAsync();
             return RedirectToAction(nameof(Index));

@@ -45,7 +45,7 @@ public class CoverTypeController : Controller
         if (ModelState.IsValid && !string.IsNullOrWhiteSpace(obj.Name))
         {
             obj.Id = Guid.NewGuid();
-            _unityOfWork.CoverType.Add(obj); // Add to the database
+            await _unityOfWork.CoverType.AddAsync(obj); // Add to the database
             await _unityOfWork.SaveAsync();
             TempData["success"] = "obj created successfully";
 

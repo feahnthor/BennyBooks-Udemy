@@ -28,6 +28,11 @@ namespace BennyBooks.DataAccess.Repository
             dbSet.Add(entity);
         }
 
+        public async Task AddAsync(GenericDbObject entity, CancellationToken cancellationToken = default)
+        {
+            await dbSet.AddAsync(entity, cancellationToken);
+        }
+
         // includeProp - "Category,CoverType"   -- case sensitive
         public IEnumerable<GenericDbObject> GetAll(Expression<Func<GenericDbObject, bool>>? filter = null, string? includeProperties = null) // makes filter nullable
         {
@@ -39,13 +44,36 @@ namespace BennyBooks.DataAccess.Repository
             
             if (includeProperties != null)
             {
-                // Will not brak is there are commas seperating properties, including ,,,
+                // Will not brake if there are commas seperating properties, including ,,,
                 foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp); // Include property so that our js files don't break when trying to get data from GetAll() from the API get
                 }
             }
             return query.ToList();
+        }
+        
+        public async Task<IEnumerable<GenericDbObject>> GetAllAsync(Expression<Func<GenericDbObject, bool>>? filter = null,
+            string? includeProperties = null,
+            CancellationToken cancellationToken = default
+            )
+        {
+            IQueryable<GenericDbObject> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                // Will not brake if there are commas seperating properties, including ,,,
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp); // Include property so that our js files don't break when trying to get data from GetAll() from the API get
+                }
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+            return await query.ToListAsync(cancellationToken);
         }
 
         public GenericDbObject GetFirstOrDefault(Expression<Func<GenericDbObject, bool>> filter, string? includeProperties = null)
@@ -61,6 +89,25 @@ namespace BennyBooks.DataAccess.Repository
                 }
             }
             return query.FirstOrDefault(); // might return null
+        }
+
+        public Task<GenericDbObject> GetFirstOrDefaultAsync(Expression<Func<GenericDbObject, bool>> filter, 
+            string? includeProperties = null,
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<GenericDbObject> query = dbSet;
+            query = query.Where(filter);
+            if (includeProperties != null)
+            {
+                // Will not brak is there are commas seperating properties, including ,,,
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp); // Include property so that our js files don't break when trying to get data from GetAll() from the API get
+                }
+            }
+            
+            cancellationToken.ThrowIfCancellationRequested(); // will cancell this task
+            return  query.FirstOrDefaultAsync(cancellationToken); // might return null
         }
 
         public void Remove(GenericDbObject entity)

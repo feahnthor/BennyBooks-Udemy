@@ -45,7 +45,7 @@ public class CategoryController : Controller
         if (ModelState.IsValid && !string.IsNullOrWhiteSpace(category.Name))
         {
             category.Id = Guid.NewGuid();
-            _unityOfWork.Category.Add(category); // Add to the database
+            await _unityOfWork.Category.AddAsync(category); // Add to the database
             await _unityOfWork.SaveAsync();
             TempData["success"] = "Category created successfully";
 
